@@ -1,0 +1,206 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_stack" name="shell-type"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "error-container": "#ffdad6", "surface-tint": "#2e6a41", "surface-dim": "#cbdbf5", "surface-variant": "#d3e4fe", "secondary-container": "#86f9bc", "secondary-fixed": "#86f9bc", "on-surface-variant": "#404941", "primary": "#003b1b", "inverse-primary": "#96d5a3", "surface-container-low": "#eff4ff", "secondary": "#006c45", "primary-container": "#14532d", "on-background": "#0b1c30", "tertiary-fixed": "#ffdf9a", "on-tertiary": "#ffffff", "on-secondary-container": "#00734a", "primary-fixed": "#b1f2be", "on-secondary-fixed": "#002112", "on-error-container": "#93000a", "outline": "#717970", "surface-container": "#e5eeff", "on-tertiary-fixed-variant": "#5a4300", "error": "#ba1a1a", "tertiary-fixed-dim": "#f7be1d", "on-tertiary-fixed": "#251a00", "secondary-fixed-dim": "#69dca1", "surface-container-high": "#dce9ff", "surface-container-lowest": "#ffffff", "tertiary": "#412f00", "on-secondary-fixed-variant": "#005233", "on-error": "#ffffff", "on-surface": "#0b1c30", "on-tertiary-container": "#e6af00", "primary-fixed-dim": "#96d5a3", "background": "#f8f9ff", "surface-bright": "#f8f9ff", "on-primary": "#ffffff", "on-primary-fixed": "#00210d", "on-secondary": "#ffffff", "outline-variant": "#c0c9be", "on-primary-container": "#87c695", "tertiary-container": "#5c4500", "inverse-surface": "#213145", "inverse-on-surface": "#eaf1ff", "surface-container-highest": "#d3e4fe", "surface": "#f8f9ff", "on-primary-fixed-variant": "#12512c" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-lg": "1.5rem", "space-sm": "0.5rem", "space-xl": "2rem", "margin-lg": "3rem", "gutter-lg": "2rem", "space-xs": "0.25rem", "margin": "1rem", "space-md": "1rem", "gutter": "1rem", "margin-md": "2rem", "gutter-md": "1.5rem" }, fontFamily: { "label-md": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "display-lg": ["Plus Jakarta Sans"], "display-lg-mobile": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"] }, fontSize: { "label-md": ["0.875rem", { lineHeight: "1rem", fontWeight: "600" }], "body-md": ["1rem", { lineHeight: "1.5rem", fontWeight: "400" }], "label-lg": ["1rem", { lineHeight: "1.25rem", letterSpacing: "0.01em", fontWeight: "600" }], "headline-lg-mobile": ["1.5rem", { lineHeight: "2rem", fontWeight: "700" }], "display-lg": ["3rem", { lineHeight: "3.5rem", letterSpacing: "-0.02em", fontWeight: "800" }], "display-lg-mobile": ["2rem", { lineHeight: "2.5rem", letterSpacing: "-0.01em", fontWeight: "800" }], "headline-md": ["1.25rem", { lineHeight: "1.75rem", fontWeight: "700" }], "body-lg": ["1.125rem", { lineHeight: "1.75rem", fontWeight: "400" }], "headline-lg": ["2rem", { lineHeight: "2.5rem", letterSpacing: "-0.01em", fontWeight: "700" }], "body-sm": ["0.875rem", { lineHeight: "1.25rem", fontWeight: "400" }], "headline-sm": ["1.125rem", { lineHeight: "1.5rem", fontWeight: "600" }], "label-sm": ["0.75rem", { lineHeight: "1rem", letterSpacing: "0.02em", fontWeight: "600" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;min-height:100%;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style></head><body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><button aria-label="Go back" class="w-11 h-11 -ml-1 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight truncate">Available Agricultural Jobs</h1></div><div class="flex items-center gap-space-xs"><button aria-label="Filter jobs" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[22px]">tune</span></button><button aria-label="Search jobs" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[22px]">search</span></button></div></div></header><main class="flex flex-col flex-1 w-full pt-16 pb-safe bg-surface"><div class="flex flex-col w-full px-margin pb-10 space-y-space-md">
+<!-- Live Regional Stats Strip -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm p-space-md flex flex-col gap-space-sm relative overflow-hidden"><div class="flex items-center justify-between gap-space-sm"><div class="flex items-center gap-2"><span class="relative flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-secondary"></span></span><h2 class="font-headline-sm text-body-lg font-semibold text-primary tracking-tight">24 Active Jobs Nearby</h2></div><span class="inline-flex items-center gap-1 bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm px-2.5 py-1 rounded-full"><span class="material-symbols-outlined text-[16px] text-secondary">location_on</span>Coorg Belt</span></div><p class="font-body-sm text-label-sm text-on-surface-variant flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-secondary shrink-0">verified</span>Madikeri &amp; Somwarpet Taluk • Verified Landowners • Daily Cash / UPI</p><div class="grid grid-cols-2 gap-space-sm pt-1"><div class="bg-surface-container-low p-2.5 rounded-xl flex items-center gap-2.5"><div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed shrink-0"><span class="material-symbols-outlined text-[18px]">payments</span></div><div class="min-w-0"><p class="font-label-sm text-[11px] text-on-surface-variant leading-none uppercase tracking-wider">Avg. Daily Wage</p><p class="font-headline-sm text-headline-sm text-primary font-bold mt-0.5">₹575<span class="font-normal text-label-sm text-on-surface-variant"> /day</span></p></div></div><div class="bg-surface-container-low p-2.5 rounded-xl flex items-center gap-2.5"><div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary shrink-0"><span class="material-symbols-outlined text-[18px]">electric_bolt</span></div><div class="min-w-0"><p class="font-label-sm text-[11px] text-on-surface-variant leading-none uppercase tracking-wider">Instant Work</p><p class="font-headline-sm text-headline-sm text-secondary font-bold mt-0.5">11 Urgent</p></div></div></div></div>
+<!-- Search & Quick Filters -->
+<div class="flex flex-col gap-space-sm">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[22px]">search</span>
+</div>
+<input class="w-full h-11 pl-11 pr-11 bg-surface-container-lowest text-on-surface rounded-xl font-body-sm text-body-sm placeholder:text-on-surface-variant/70 shadow-sm outline-none" id="jobSearchInput" placeholder="Search work (e.g. Coffee Picking, Paddy)..." type="search">
+<button aria-label="Clear search" class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-on-surface-variant hover:text-on-surface" id="clearSearchBtn" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Village Filter Scroll Rack -->
+<div class="flex items-center gap-2 overflow-x-auto pb-1 pt-0.5 no-scrollbar -mx-margin px-margin">
+<button class="village-chip shrink-0 min-h-[38px] px-4 py-1.5 rounded-full font-label-md text-label-md transition-all active:scale-95 bg-primary-container text-on-primary shadow-sm" data-village="all">
+        All Villages (24)
+      </button>
+<button class="village-chip shrink-0 min-h-[38px] px-4 py-1.5 rounded-full font-label-md text-label-md transition-all active:scale-95 bg-surface-container-lowest text-on-surface shadow-sm" data-village="suntikoppa">
+        Suntikoppa (6)
+      </button>
+<button class="village-chip shrink-0 min-h-[38px] px-4 py-1.5 rounded-full font-label-md text-label-md transition-all active:scale-95 bg-surface-container-lowest text-on-surface shadow-sm" data-village="napoklu">
+        Napoklu (5)
+      </button>
+<button class="village-chip shrink-0 min-h-[38px] px-4 py-1.5 rounded-full font-label-md text-label-md transition-all active:scale-95 bg-surface-container-lowest text-on-surface shadow-sm" data-village="madikeri">
+        Madikeri Rural (4)
+      </button>
+<button class="village-chip shrink-0 min-h-[38px] px-4 py-1.5 rounded-full font-label-md text-label-md transition-all active:scale-95 bg-surface-container-lowest text-on-surface shadow-sm" data-village="kushalnagar">
+        Kushalnagar (5)
+      </button>
+<button class="village-chip shrink-0 min-h-[38px] px-4 py-1.5 rounded-full font-label-md text-label-md transition-all active:scale-95 bg-surface-container-lowest text-on-surface shadow-sm" data-village="somwarpet">
+        Somwarpet (4)
+      </button>
+</div>
+<!-- Active Quick Filter Bar -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">sort</span>
+<span>Showing: <strong class="text-on-surface font-semibold">Highest Wage • Urgent First</strong></span>
+</div>
+<button class="inline-flex items-center gap-1 text-secondary font-label-md text-label-md py-1 px-2 rounded-lg bg-secondary-container/40 active:scale-95" id="toggleQuickSort">
+<span class="material-symbols-outlined text-[18px]">swap_vert</span>
+        Sort: Wage
+      </button>
+</div>
+</div>
+<!-- Job Listing Grid -->
+<div class="flex flex-col space-y-space-md" id="jobCardList">
+<!-- Card 1: Coffee Bean Picking -->
+<div class="job-card bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden flex flex-col" data-urgent="true" data-village="suntikoppa" data-wage="550"><div class="p-space-md flex flex-col gap-space-sm"><div class="flex items-start justify-between gap-space-sm"><div class="flex-1 min-w-0"><div class="flex flex-wrap items-center gap-1.5 mb-1"><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-primary-fixed text-on-primary-fixed"><span class="material-symbols-outlined text-[14px]">local_fire_department</span>Urgent • 6 Needed</span><span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant">Plantation Work</span></div><h2 class="font-headline-sm text-body-lg font-bold text-on-surface leading-snug">Coffee Bean Picking &amp; Sorting</h2></div><div class="flex flex-col items-end shrink-0"><span class="bg-primary-container text-on-primary font-headline-sm text-body-lg font-bold px-3 py-1 rounded-xl shadow-sm whitespace-nowrap">₹550 <span class="font-label-sm text-label-sm font-normal text-on-primary-container">/day</span></span><span class="font-label-sm text-[11px] text-secondary mt-1 font-semibold uppercase tracking-wider">Daily Cash</span></div></div><div class="grid grid-cols-1 gap-1.5 pt-0.5"><div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">schedule</span><span class="truncate">8:00 AM – 4:30 PM (8 hrs) • <strong class="text-on-surface font-semibold">5 Days Work</strong></span></div><div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">location_on</span><span class="truncate">Suntikoppa (East Estate Field #4, Near Water Tank)</span></div><div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">person_pin</span><span class="truncate">Farmer: <strong class="text-on-surface font-semibold">Ramesh Gowda</strong> (Verified ★ 4.9)</span></div></div><div class="bg-surface-container-low p-2.5 rounded-xl flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">free_breakfast</span><p class="font-label-sm text-label-sm text-on-surface leading-tight">Perks: 2 Times Fresh Estate Tea &amp; Morning Breakfast included daily</p></div><div class="details-tray pt-2 space-y-2 border-t border-transparent hidden" id="details-card-1"><div class="p-3 bg-surface rounded-xl space-y-1.5"><p class="font-label-md text-label-md text-primary font-semibold">Job Responsibilities &amp; Notes</p><ul class="text-on-surface-variant font-body-sm text-body-sm space-y-1 list-disc list-inside"><li>Selective picking of red-ripe Arabica &amp; Robusta berries only.</li><li>Basket scales available at every section checkpoint.</li><li>Tools: Collecting baskets provided by farm owner.</li><li>Payment cleared at 5:00 PM every evening via Cash or Google Pay.</li></ul></div></div><div class="grid grid-cols-2 gap-space-sm pt-1"><button class="min-h-[44px] px-3 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 active:scale-95 transition-all" onclick="toggleDetails('details-card-1', this)" type="button"><span>View Details</span><span class="material-symbols-outlined text-[18px] transition-transform duration-200" style="transform: rotate(0deg);">expand_more</span></button><a class="min-h-[44px] px-3 rounded-xl bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all" href="tel:+919845012345"><span class="material-symbols-outlined text-[18px]">call</span><span>Call Now</span></a></div></div></div>
+<!-- Card 2: Paddy Harvesting -->
+<div class="job-card bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden flex flex-col" data-urgent="true" data-village="napoklu" data-wage="600"><div class="p-space-md flex flex-col gap-space-sm"><div class="flex items-start justify-between gap-space-sm"><div class="flex-1 min-w-0"><div class="flex flex-wrap items-center gap-1.5 mb-1"><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed"><span class="material-symbols-outlined text-[14px]">bolt</span>Immediate Start • 4 Workers</span><span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant">Wet Field</span></div><h2 class="font-headline-sm text-body-lg font-bold text-on-surface leading-snug">Paddy Harvesting &amp; Bundling</h2></div><div class="flex flex-col items-end shrink-0"><span class="bg-primary-container text-on-primary font-headline-sm text-body-lg font-bold px-3 py-1 rounded-xl shadow-sm whitespace-nowrap">₹600 <span class="font-label-sm text-label-sm font-normal text-on-primary-container">/day</span></span><span class="font-label-sm text-[11px] text-secondary mt-1 font-semibold uppercase tracking-wider">Immediate Cash</span></div></div><div class="grid grid-cols-1 gap-1.5 pt-0.5"><div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">schedule</span><span class="truncate">7:30 AM – 3:30 PM (8 hrs) • <strong class="text-on-surface font-semibold">3 Days Duration</strong></span></div><div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">location_on</span><span class="truncate">Napoklu Village (Riverbank Valley Plot B)</span></div><div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">person_pin</span><span class="truncate">Farmer: <strong class="text-on-surface font-semibold">H. M. Bopanna</strong> (Verified ★ 4.8)</span></div></div><div class="bg-surface-container-low p-2.5 rounded-xl flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">restaurant</span><p class="font-label-sm text-label-sm text-on-surface leading-tight">Perks: Wholesome Country Lunch &amp; Fresh Coconut Water at 11 AM</p></div><div class="details-tray hidden pt-2 space-y-2 border-t border-transparent" id="details-card-2"><div class="p-3 bg-surface rounded-xl space-y-1.5"><p class="font-label-md text-label-md text-primary font-semibold">Work Specifics &amp; Tools</p><ul class="text-on-surface-variant font-body-sm text-body-sm space-y-1 list-disc list-inside"><li>Cutting mature paddy stalks, tying into sheaves, moving to drying threshing floor.</li><li>Please bring personal harvesting sickles. Sharpening stones available on plot.</li><li>Dry weather guaranteed for next 3 days. Clean drinking water tanker on site.</li></ul></div></div><div class="grid grid-cols-2 gap-space-sm pt-1"><button class="min-h-[44px] px-3 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 active:scale-95 transition-all" onclick="toggleDetails('details-card-2', this)" type="button"><span>View Details</span><span class="material-symbols-outlined text-[18px] transition-transform duration-200">expand_more</span></button><a class="min-h-[44px] px-3 rounded-xl bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all" href="tel:+919481278901"><span class="material-symbols-outlined text-[18px]">call</span><span>Call Now</span></a></div></div></div>
+<!-- Card 3: Arecanut Peeling -->
+<div class="job-card bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden flex flex-col" data-urgent="false" data-village="madikeri" data-wage="500"><div class="p-space-md flex flex-col gap-space-sm"><div class="flex items-start justify-between gap-space-sm"><div class="flex-1 min-w-0"><div class="flex flex-wrap items-center gap-1.5 mb-1"><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface"><span class="material-symbols-outlined text-[14px] text-secondary">roofing</span>Indoor Work • Flexible Hours</span><span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-fixed text-on-tertiary-fixed">+Bonus Incentive</span></div><h2 class="font-headline-sm text-body-lg font-bold text-on-surface leading-snug">Arecanut Peeling &amp; De-husking</h2></div><div class="flex flex-col items-end shrink-0"><span class="bg-primary-container text-on-primary font-headline-sm text-body-lg font-bold px-3 py-1 rounded-xl shadow-sm whitespace-nowrap">₹500 <span class="font-label-sm text-label-sm font-normal text-on-primary-container">/day</span></span><span class="font-label-sm text-[11px] text-on-tertiary-container mt-1 font-semibold uppercase tracking-wider">+₹5/kg above 50kg</span></div></div><div class="grid grid-cols-1 gap-1.5 pt-0.5"><div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">schedule</span><span class="truncate">9:00 AM – 5:00 PM • <strong class="text-on-surface font-semibold">7 Days Duration</strong></span></div><div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">location_on</span><span class="truncate">Madikeri Rural (Murnad Road, Opp. Primary School)</span></div><div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">person_pin</span><span class="truncate">Farmer: <strong class="text-on-surface font-semibold">Suresh Somanna</strong> (Verified ★ 5.0)</span></div></div><div class="bg-surface-container-low p-2.5 rounded-xl flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">wb_shade</span><p class="font-label-sm text-label-sm text-on-surface leading-tight">Perks: Shaded spacious drying yard, warm tea &amp; steamed evening snacks</p></div><div class="details-tray hidden pt-2 space-y-2 border-t border-transparent" id="details-card-3"><div class="p-3 bg-surface rounded-xl space-y-1.5"><p class="font-label-md text-label-md text-primary font-semibold">Job Notes &amp; Facilities</p><ul class="text-on-surface-variant font-body-sm text-body-sm space-y-1 list-disc list-inside"><li>Manual and mechanical peeler machines available. Beginner workers welcome.</li><li>Clean, covered yard protects from rain or direct hot sun.</li><li>Women and elder friendly setup with ergonomic seating stools provided.</li></ul></div></div><div class="grid grid-cols-2 gap-space-sm pt-1"><button class="min-h-[44px] px-3 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 active:scale-95 transition-all" onclick="toggleDetails('details-card-3', this)" type="button"><span>View Details</span><span class="material-symbols-outlined text-[18px] transition-transform duration-200">expand_more</span></button><a class="min-h-[44px] px-3 rounded-xl bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all" href="tel:+919740145678"><span class="material-symbols-outlined text-[18px]">call</span><span>Call Now</span></a></div></div></div>
+<!-- Card 4: Black Pepper Trellis & Spraying -->
+<div class="job-card bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden flex flex-col" data-urgent="true" data-village="kushalnagar" data-wage="650"><div class="p-space-md flex flex-col gap-space-sm"><div class="flex items-start justify-between gap-space-sm"><div class="flex-1 min-w-0"><div class="flex flex-wrap items-center gap-1.5 mb-1"><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-primary-fixed text-on-primary-fixed"><span class="material-symbols-outlined text-[14px]">psychology</span>Experience Required • 2 Workers</span><span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant">Top Wage</span></div><h2 class="font-headline-sm text-body-lg font-bold text-on-surface leading-snug">Pepper Trellis &amp; Organic Spray</h2></div><div class="flex flex-col items-end shrink-0"><span class="bg-primary-container text-on-primary font-headline-sm text-body-lg font-bold px-3 py-1 rounded-xl shadow-sm whitespace-nowrap">₹650 <span class="font-label-sm text-label-sm font-normal text-on-primary-container">/day</span></span><span class="font-label-sm text-[11px] text-secondary mt-1 font-semibold uppercase tracking-wider">Quick 6hr Shift</span></div></div><div class="grid grid-cols-1 gap-1.5 pt-0.5"><div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">schedule</span><span class="truncate">8:00 AM – 2:00 PM (6 hrs) • <strong class="text-on-surface font-semibold">2 Days Shift</strong></span></div><div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">location_on</span><span class="truncate">Kushalnagar Outskirts (Kaveri Plantation)</span></div><div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">person_pin</span><span class="truncate">Farmer: <strong class="text-on-surface font-semibold">C. P. Muthappa</strong> (Verified ★ 4.9)</span></div></div><div class="bg-surface-container-low p-2.5 rounded-xl flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-secondary shrink-0">medical_services</span><p class="font-label-sm text-label-sm text-on-surface leading-tight">Perks: Certified safety masks, eye gear provided • Full midday meal</p></div><div class="details-tray pt-2 space-y-2 border-t border-transparent" id="details-card-4"><div class="p-3 bg-surface rounded-xl space-y-1.5"><p class="font-label-md text-label-md text-primary font-semibold">Safety &amp; Equipment Protocol</p><ul class="text-on-surface-variant font-body-sm text-body-sm space-y-1 list-disc list-inside"><li>Applying organic neem oil bio-formulation using battery power knapsack sprayer.</li><li>Light bamboo ladders available for pepper vine tying up silver oak trees.</li><li>Transport pickup available from Kushalnagar bus stand at 7:30 AM.</li></ul></div></div><div class="grid grid-cols-2 gap-space-sm pt-1"><button class="min-h-[44px] px-3 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 active:scale-95 transition-all" onclick="toggleDetails('details-card-4', this)" type="button"><span>Hide Details</span><span class="material-symbols-outlined text-[18px] transition-transform duration-200" style="transform: rotate(180deg);">expand_more</span></button><a class="min-h-[44px] px-3 rounded-xl bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all" href="tel:+919900267890"><span class="material-symbols-outlined text-[18px]">call</span><span>Call Now</span></a></div></div></div>
+</div>
+<!-- Empty State (Hidden initially) -->
+<div class="hidden bg-surface-container-lowest rounded-2xl p-space-lg text-center flex flex-col items-center justify-center gap-2 shadow-sm" id="noResultsState">
+<div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant mb-1">
+<span class="material-symbols-outlined text-[30px]">search_off</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">No jobs found in this village</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs">
+      Try selecting "All Villages" or search for other skills like "Harvest" or "Picking".
+    </p>
+<button class="mt-2 px-4 py-2 bg-primary text-on-primary rounded-xl font-label-md text-label-md active:scale-95" id="resetFilterBtn" type="button">
+      Reset Filters
+    </button>
+</div>
+<!-- Worker Helpline 24/7 Card -->
+<div class="bg-gradient-to-br from-primary-container to-primary text-on-primary rounded-2xl p-space-md shadow-md flex items-center gap-space-md"><div class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed shrink-0 shadow-sm"><span class="material-symbols-outlined text-[24px]">support_agent</span></div><div class="flex-1 min-w-0"><p class="font-label-sm text-[11px] text-primary-fixed uppercase tracking-wider font-semibold">Toll-Free 24/7 Helpline</p><h3 class="font-headline-sm text-body-lg font-bold text-on-primary leading-tight mt-0.5">Need Help Finding Work?</h3><p class="font-body-sm text-label-sm text-primary-fixed/90 mt-0.5">Call KISAN SATHI Worker Desk</p><a class="inline-flex items-center gap-1.5 mt-2 bg-on-primary text-primary font-label-md text-label-sm font-semibold px-3.5 py-1.5 rounded-xl shadow-sm active:scale-95 transition-all" href="tel:18004251661"><span class="material-symbols-outlined text-[16px]">phone_in_talk</span><span>1800-425-1661</span></a></div></div>
+<!-- Field Safety & Fair Wage Guarantee Notice -->
+<div class="bg-surface-container rounded-2xl p-space-md flex items-start gap-space-sm text-on-surface"><span class="material-symbols-outlined text-[20px] text-secondary shrink-0 mt-0.5">verified_user</span><div class="space-y-0.5 text-on-surface-variant"><p class="font-label-md text-label-md font-semibold text-on-surface">100% Guaranteed Payment Safety</p><p class="font-body-sm text-body-sm leading-relaxed text-on-surface-variant">All landowners registered have escrowed daily wages or pledged on-the-spot cash distribution upon field shift completion.</p></div></div>
+</div>
+<script>
+  function toggleDetails(trayId, btn) {
+    const tray = document.getElementById(trayId);
+    const icon = btn.querySelector('.material-symbols-outlined');
+    const label = btn.querySelector('span');
+
+    if (!tray) return;
+
+    if (tray.classList.contains('hidden')) {
+      tray.classList.remove('hidden');
+      if (icon) icon.style.transform = 'rotate(180deg)';
+      if (label) label.textContent = 'Hide Details';
+    } else {
+      tray.classList.add('hidden');
+      if (icon) icon.style.transform = 'rotate(0deg)';
+      if (label) label.textContent = 'View Details';
+    }
+  }
+
+  // Interactive filtering
+  (function initFilters() {
+    const chips = document.querySelectorAll('.village-chip');
+    const searchInput = document.getElementById('jobSearchInput');
+    const clearBtn = document.getElementById('clearSearchBtn');
+    const cards = document.querySelectorAll('.job-card');
+    const noResults = document.getElementById('noResultsState');
+    const resetBtn = document.getElementById('resetFilterBtn');
+    const sortBtn = document.getElementById('toggleQuickSort');
+    const cardContainer = document.getElementById('jobCardList');
+
+    let activeVillage = 'all';
+    let sortHighToLow = true;
+
+    function applyFilter() {
+      const query = (searchInput.value || '').toLowerCase().trim();
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const village = card.getAttribute('data-village');
+        const text = card.textContent.toLowerCase();
+        const matchesVillage = (activeVillage === 'all' || village === activeVillage);
+        const matchesSearch = !query || text.includes(query);
+
+        if (matchesVillage && matchesSearch) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      if (visibleCount === 0) {
+        noResults.classList.remove('hidden');
+      } else {
+        noResults.classList.add('hidden');
+      }
+
+      if (query.length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => {
+          c.classList.remove('bg-primary-container', 'text-on-primary');
+          c.classList.add('bg-surface-container-lowest', 'text-on-surface');
+        });
+        chip.classList.add('bg-primary-container', 'text-on-primary');
+        chip.classList.remove('bg-surface-container-lowest', 'text-on-surface');
+
+        activeVillage = chip.getAttribute('data-village');
+        applyFilter();
+      });
+    });
+
+    searchInput.addEventListener('input', applyFilter);
+
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      applyFilter();
+      searchInput.focus();
+    });
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        activeVillage = 'all';
+        chips.forEach((c, idx) => {
+          if (idx === 0) {
+            c.classList.add('bg-primary-container', 'text-on-primary');
+            c.classList.remove('bg-surface-container-lowest', 'text-on-surface');
+          } else {
+            c.classList.remove('bg-primary-container', 'text-on-primary');
+            c.classList.add('bg-surface-container-lowest', 'text-on-surface');
+          }
+        });
+        applyFilter();
+      });
+    }
+
+    if (sortBtn) {
+      sortBtn.addEventListener('click', () => {
+        sortHighToLow = !sortHighToLow;
+        sortBtn.innerHTML = `
+          <span class="material-symbols-outlined text-[18px]">swap_vert</span>
+          Sort: ${sortHighToLow ? 'Wage High' : 'Wage Low'}
+        `;
+
+        const cardArr = Array.from(cards);
+        cardArr.sort((a, b) => {
+          const wageA = parseInt(a.getAttribute('data-wage') || '0', 10);
+          const wageB = parseInt(b.getAttribute('data-wage') || '0', 10);
+          return sortHighToLow ? wageB - wageA : wageA - wageB;
+        });
+
+        cardArr.forEach(c => cardContainer.appendChild(c));
+      });
+    }
+  })();
+</script></main>
+
+</body></html>

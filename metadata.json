@@ -1,0 +1,6 @@
+{
+  "name": "Kisan Sathi",
+  "description": "Agricultural marketplace and advisory platform connecting farmers, farm workers, agricultural experts, and suppliers/traders.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
