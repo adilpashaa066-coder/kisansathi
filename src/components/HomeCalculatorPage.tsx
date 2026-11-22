@@ -240,9 +240,6 @@ export function HomeCalculatorPage({
     },
   ];
 
-  const latestJobs = jobs.slice(0, 2);
-  const latestCrops = crops.slice(0, 2);
-
   return (
     <div className="flex flex-col w-full max-w-5xl mx-auto px-4 pb-8 pt-3 gap-6 overflow-x-clip">
       <input
@@ -416,120 +413,7 @@ export function HomeCalculatorPage({
         </div>
       </section>
 
-      {/* 3. Live Worker & Market Highlights */}
-      <section aria-labelledby="home-activity-heading" className="flex flex-col gap-3">
-        <h2 id="home-activity-heading" className="text-base sm:text-lg font-bold text-on-surface">
-          Recent Activity Across Your Network
-        </h2>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {/* Recent Work Listings */}
-          <div className="bg-surface-container-lowest rounded-2xl p-4 shadow-sm border border-outline-variant/25 flex flex-col gap-3">
-            <div className="flex items-center justify-between gap-2">
-              <div className="min-w-0">
-                <h3 className="text-sm sm:text-base font-bold text-on-surface truncate">
-                  Active Farm Work Listings
-                </h3>
-                <p className="text-xs text-on-surface-variant">Latest posted field requirements</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => onNavigateTab('workers')}
-                className="min-h-[40px] px-3 rounded-xl text-xs font-bold text-secondary hover:text-primary inline-flex items-center gap-1 shrink-0"
-              >
-                <span>View All</span>
-                <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-              </button>
-            </div>
-
-            {latestJobs.length === 0 ? (
-              <p className="text-xs text-on-surface-variant py-4 text-center">
-                No active worker postings at the moment.
-              </p>
-            ) : (
-              <div className="divide-y divide-outline-variant/25">
-                {latestJobs.map((job) => (
-                  <button
-                    key={job.id}
-                    type="button"
-                    onClick={() => onNavigateTab('workers')}
-                    className="w-full py-3 first:pt-1 last:pb-1 text-left flex items-center justify-between gap-3 hover:opacity-85 transition-opacity min-w-0"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold text-on-surface truncate">{job.workName}</p>
-                      <p className="text-xs text-on-surface-variant truncate mt-0.5">
-                        {job.village} · {job.duration} · {job.farmerName}
-                      </p>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <span className="text-sm font-extrabold text-primary tabular-nums block">
-                        {formatINR(job.wagePerDay)}/day
-                      </span>
-                      <span className="text-[11px] text-secondary font-semibold tabular-nums block">
-                        {job.workersNeededMale + job.workersNeededFemale} needed
-                      </span>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Recent Crop Lots */}
-          <div className="bg-surface-container-lowest rounded-2xl p-4 shadow-sm border border-outline-variant/25 flex flex-col gap-3">
-            <div className="flex items-center justify-between gap-2">
-              <div className="min-w-0">
-                <h3 className="text-sm sm:text-base font-bold text-on-surface truncate">
-                  Latest Farmer Crop Lots
-                </h3>
-                <p className="text-xs text-on-surface-variant">Direct farmgate produce prices</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => onNavigateTab('market')}
-                className="min-h-[40px] px-3 rounded-xl text-xs font-bold text-secondary hover:text-primary inline-flex items-center gap-1 shrink-0"
-              >
-                <span>Open Market</span>
-                <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-              </button>
-            </div>
-
-            {latestCrops.length === 0 ? (
-              <p className="text-xs text-on-surface-variant py-4 text-center">
-                No crop lots listed at the moment.
-              </p>
-            ) : (
-              <div className="divide-y divide-outline-variant/25">
-                {latestCrops.map((crop) => (
-                  <button
-                    key={crop.id}
-                    type="button"
-                    onClick={() => onNavigateTab('market')}
-                    className="w-full py-3 first:pt-1 last:pb-1 text-left flex items-center justify-between gap-3 hover:opacity-85 transition-opacity min-w-0"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold text-on-surface truncate">{crop.cropName}</p>
-                      <p className="text-xs text-on-surface-variant truncate mt-0.5">
-                        {crop.farmerName} · {crop.village} · {crop.quantity} {crop.unitShort}
-                      </p>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <span className="text-sm font-extrabold text-primary tabular-nums block">
-                        {formatINR(crop.pricePerUnit)}/{crop.unitShort}
-                      </span>
-                      <span className="text-[11px] text-on-surface-variant font-semibold tabular-nums block">
-                        Total {formatINR(crop.pricePerUnit * crop.quantity)}
-                      </span>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Profile / Farmer Information Section */}
+      {/* 3. Profile / Farmer Information Section */}
       <section className="bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/25 p-4 sm:p-5 flex flex-col gap-4">
         <div className="flex items-center justify-between gap-2 flex-wrap">
           <div className="flex items-center gap-2.5 min-w-0">
@@ -861,7 +745,7 @@ export function HomeCalculatorPage({
         )}
       </section>
 
-      {/* 5. Saved Crops List Section */}
+      {/* 4. Saved Crops List Section */}
       {savedCrops.length > 0 && (
         <section className="flex flex-col gap-3">
           <div className="flex items-center justify-between gap-2">

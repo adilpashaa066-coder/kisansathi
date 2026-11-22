@@ -13,6 +13,27 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DATA_DIR = path.join(__dirname, 'data');
 const DB_FILE = path.join(DATA_DIR, 'kisan-sathi-db.json');
+const FIREBASE_CONFIG_FILE = path.join(__dirname, 'firebase-applet-config.json');
+
+interface FirebaseAppletConfig {
+  projectId?: string;
+  apiKey?: string;
+  oAuthClientId?: string;
+}
+
+function getFirebaseConfig(): FirebaseAppletConfig | null {
+  try {
+    if (!fs.existsSync(FIREBASE_CONFIG_FILE)) return null;
+    const raw = fs.readFileSync(FIREBASE_CONFIG_FILE, 'utf8');
+    const parsed = JSON.parse(raw) as FirebaseAppletConfig;
+    if (!parsed?.apiKey || !parsed?.projectId || parsed.projectId === 'remixed-project-id') {
+      return null;
+    }
+    return parsed;
+  } catch {
+    return null;
+  }
+}
 
 interface JobRecord {
   id: string;
@@ -211,30 +232,61 @@ function parseCookies(cookieHeader?: string): Record<string, string> {
   return result;
 }
 
-function setSessionCookie(req: express.Request, res: express.Response, token: string): void {
-  const isHttps = req.secure || req.headers['x-forwarded-proto'] === 'https';
+function isHttpsRequest(req: express.Request): boolean {
+  const proto = String(req.headers['x-forwarded-proto'] || '').toLowerCase();
+  const origin = String(req.headers.origin || '').toLowerCase();
+  const referer = String(req.headers.referer || '').toLowerCase();
+  const appUrl = String(process.env.APP_URL || '').toLowerCase();
+  return (
+    req.secure ||
+    proto.includes('https') ||
+    origin.startsWith('https://') ||
+    referer.startsWith('https://') ||
+    appUrl.startsWith('https://')
+  );
+}
+
+function setSessionCookie(
+  req: express.Request,
+  res: express.Response,
+  token: string,
+  rememberMe = true
+): void {
+  const isHttps = isHttpsRequest(req);
   const flags = [
     `${SESSION_COOKIE_NAME}=${encodeURIComponent(token)}`,
     'Path=/',
     'HttpOnly',
-    'SameSite=Lax',
-    `Max-Age=${Math.floor(SESSION_TTL_MS / 1000)}`,
+    isHttps ? 'SameSite=None' : 'SameSite=Lax',
   ];
+  if (rememberMe) {
+    flags.push(`Max-Age=${Math.floor(SESSION_TTL_MS / 1000)}`);
+  }
   if (isHttps) flags.push('Secure');
   res.setHeader('Set-Cookie', flags.join('; '));
 }
 
 function clearSessionCookie(req: express.Request, res: express.Response): void {
-  const isHttps = req.secure || req.headers['x-forwarded-proto'] === 'https';
+  const isHttps = isHttpsRequest(req);
   const flags = [
     `${SESSION_COOKIE_NAME}=`,
     'Path=/',
     'HttpOnly',
-    'SameSite=Lax',
+    isHttps ? 'SameSite=None' : 'SameSite=Lax',
     'Max-Age=0',
   ];
   if (isHttps) flags.push('Secure');
   res.setHeader('Set-Cookie', flags.join('; '));
+}
+
+function extractSessionToken(req: express.Request): string | undefined {
+  const authHeader = req.headers.authorization;
+  if (typeof authHeader === 'string' && authHeader.startsWith('Bearer ')) {
+    const bearer = authHeader.slice(7).trim();
+    if (bearer) return bearer;
+  }
+  const cookies = parseCookies(req.headers.cookie);
+  return cookies[SESSION_COOKIE_NAME];
 }
 
 function pruneExpiredSessions(db: DatabaseSchema): void {
@@ -267,8 +319,7 @@ function getAuthenticatedUser(
   req: express.Request,
   db: DatabaseSchema
 ): { email: string; token: string; user: AuthUserRecord } | null {
-  const cookies = parseCookies(req.headers.cookie);
-  const token = cookies[SESSION_COOKIE_NAME];
+  const token = extractSessionToken(req);
   if (!token) return null;
   const session = db.sessions?.[token];
   if (!session) return null;
@@ -1133,8 +1184,10 @@ function createApp() {
   app.get('/api/auth/me', (req, res) => {
     const db = readDb();
     const auth = getAuthenticatedUser(req, db);
+    const firebaseCfg = getFirebaseConfig();
     const googleAuthConfigured = Boolean(
-      (process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID || '').trim()
+      firebaseCfg?.apiKey ||
+        (process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID || '').trim()
     );
     if (!auth) {
       res.json({ authenticated: false, user: null, googleAuthConfigured });
@@ -1153,6 +1206,7 @@ function createApp() {
     const state = typeof body.state === 'string' ? body.state.trim() : '';
     const district = typeof body.district === 'string' ? body.district.trim() : '';
     const taluk = typeof body.taluk === 'string' ? body.taluk.trim() : '';
+    const rememberMe = body.rememberMe !== false;
 
     if (name.length < 2) {
       res.status(400).json({ error: 'Please enter your full name (minimum 2 characters).' });
@@ -1175,7 +1229,10 @@ function createApp() {
       return;
     }
     if (db.users?.[rawEmail]) {
-      res.status(409).json({ error: 'An account with this email already exists. Please Sign In instead.' });
+      res.status(409).json({
+        error: 'An account with this email already exists. Please Sign In instead.',
+        code: 'EMAIL_EXISTS',
+      });
       return;
     }
 
@@ -1207,8 +1264,8 @@ function createApp() {
 
     const token = createSessionForEmail(db, rawEmail);
     writeDb(db);
-    setSessionCookie(req, res, token);
-    res.status(201).json({ user: profile });
+    setSessionCookie(req, res, token, rememberMe);
+    res.status(201).json({ user: profile, token });
   });
 
   app.post('/api/auth/login', (req, res) => {
@@ -1216,6 +1273,7 @@ function createApp() {
     const body = req.body ?? {};
     const rawEmail = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
     const password = typeof body.password === 'string' ? body.password : '';
+    const rememberMe = body.rememberMe !== false;
 
     if (!rawEmail || !password) {
       res.status(400).json({ error: 'Please enter both email and password.' });
@@ -1224,20 +1282,24 @@ function createApp() {
 
     const existing = db.users?.[rawEmail];
     if (!existing) {
-      res.status(401).json({ error: 'Invalid email or password.' });
+      res.status(401).json({
+        error: 'No account found with this email, or incorrect password.',
+        code: 'INVALID_CREDENTIALS',
+      });
       return;
     }
     if (!existing.passwordHash) {
       res.status(401).json({
         error:
           existing.authProvider === 'google'
-            ? 'This account is linked with Google Sign-In. Please continue with Google.'
+            ? 'This email is registered with Google Sign-In. Please click "Continue with Google".'
             : 'Invalid email or password.',
+        code: existing.authProvider === 'google' ? 'USE_GOOGLE_SIGNIN' : 'INVALID_CREDENTIALS',
       });
       return;
     }
     if (!verifyPassword(password, existing.passwordHash)) {
-      res.status(401).json({ error: 'Invalid email or password.' });
+      res.status(401).json({ error: 'Incorrect password. Please try again.' });
       return;
     }
 
@@ -1247,86 +1309,132 @@ function createApp() {
     };
     const token = createSessionForEmail(db, rawEmail);
     writeDb(db);
-    setSessionCookie(req, res, token);
-    res.json({ user: safeProfile });
+    setSessionCookie(req, res, token, rememberMe);
+    res.json({ user: safeProfile, token });
   });
 
   app.post('/api/auth/google', async (req, res) => {
+    const firebaseCfg = getFirebaseConfig();
     const googleClientId = (
       process.env.GOOGLE_CLIENT_ID ||
       process.env.VITE_GOOGLE_CLIENT_ID ||
       ''
     ).trim();
-    if (!googleClientId) {
+
+    if (!firebaseCfg?.apiKey && !googleClientId) {
       res.status(503).json({
-        error:
-          'Google Sign-In is not configured on this server. Please use Email Sign Up or Sign In.',
+        error: 'Google Sign-In is not configured on this server. Please use Email Sign Up or Sign In.',
       });
       return;
     }
 
-    const { idToken, profession } = req.body ?? {};
+    const { idToken, profession, rememberMe } = req.body ?? {};
     if (typeof idToken !== 'string' || !idToken.trim()) {
       res.status(400).json({ error: 'Missing Google ID token credential.' });
       return;
     }
 
     try {
-      const verifyResp = await fetch(
-        `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(idToken.trim())}`
-      );
-      if (!verifyResp.ok) {
-        res.status(401).json({ error: 'Google token verification failed.' });
-        return;
+      let verifiedEmail = '';
+      let verifiedName = '';
+      let verifiedPicture = '';
+
+      if (firebaseCfg?.apiKey) {
+        const lookupResp = await fetch(
+          `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${encodeURIComponent(firebaseCfg.apiKey)}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idToken: idToken.trim() }),
+          }
+        );
+        if (lookupResp.ok) {
+          const lookupData = (await lookupResp.json()) as {
+            users?: Array<{
+              email?: string;
+              emailVerified?: boolean;
+              displayName?: string;
+              photoUrl?: string;
+              providerUserInfo?: Array<{ providerId?: string; email?: string; displayName?: string; photoUrl?: string }>;
+            }>;
+          };
+          const fbUser = lookupData.users?.[0];
+          const googleInfo = fbUser?.providerUserInfo?.find((p) => p.providerId === 'google.com');
+          const rawEmail = fbUser?.email || googleInfo?.email || '';
+          const isVerified = Boolean(fbUser?.emailVerified || googleInfo);
+          if (rawEmail && isVerified) {
+            verifiedEmail = rawEmail.trim().toLowerCase();
+            verifiedName = (fbUser?.displayName || googleInfo?.displayName || '').trim();
+            verifiedPicture = (fbUser?.photoUrl || googleInfo?.photoUrl || '').trim();
+          }
+        }
       }
-      const tokenInfo = (await verifyResp.json()) as {
-        aud?: string;
-        email?: string;
-        email_verified?: string | boolean;
-        name?: string;
-        picture?: string;
-      };
-      const verified =
-        tokenInfo.email_verified === true || tokenInfo.email_verified === 'true';
-      if (tokenInfo.aud !== googleClientId || !verified || !tokenInfo.email) {
+
+      if (!verifiedEmail && googleClientId) {
+        const verifyResp = await fetch(
+          `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(idToken.trim())}`
+        );
+        if (verifyResp.ok) {
+          const tokenInfo = (await verifyResp.json()) as {
+            aud?: string;
+            email?: string;
+            email_verified?: string | boolean;
+            name?: string;
+            picture?: string;
+          };
+          const isEmailVerified =
+            tokenInfo.email_verified === true || tokenInfo.email_verified === 'true';
+          if (
+            (tokenInfo.aud === googleClientId || tokenInfo.aud === firebaseCfg?.oAuthClientId) &&
+            isEmailVerified &&
+            tokenInfo.email
+          ) {
+            verifiedEmail = tokenInfo.email.trim().toLowerCase();
+            verifiedName = (tokenInfo.name || '').trim();
+            verifiedPicture = (tokenInfo.picture || '').trim();
+          }
+        }
+      }
+
+      if (!verifiedEmail) {
         res.status(401).json({ error: 'Invalid or unverified Google account credential.' });
         return;
       }
 
-      const cleanEmail = tokenInfo.email.trim().toLowerCase();
       const db = readDb();
-      const existing = db.users?.[cleanEmail];
+      const existing = db.users?.[verifiedEmail];
       const nowIso = new Date().toISOString();
 
       const nextProfile: ProfileRecord = existing
         ? {
             ...existing.profile,
-            email: cleanEmail,
+            email: verifiedEmail,
             googleConnected: true,
-            profession: VALID_SIGNUP_PROFESSIONS.includes(profession)
-              ? profession
-              : normalizeProfession(existing.profile.profession),
-            avatarUrl: existing.profile.avatarUrl || tokenInfo.picture || DEFAULT_AVATAR,
+            profession: normalizeProfession(existing.profile.profession),
+            avatarUrl:
+              existing.profile.avatarUrl && existing.profile.avatarUrl !== DEFAULT_AVATAR
+                ? existing.profile.avatarUrl
+                : verifiedPicture || existing.profile.avatarUrl || DEFAULT_AVATAR,
             updatedAt: nowIso,
           }
         : {
             id: `user-${Date.now()}`,
-            name: tokenInfo.name?.trim() || cleanEmail.split('@')[0],
-            email: cleanEmail,
+            name: verifiedName || verifiedEmail.split('@')[0],
+            email: verifiedEmail,
             profession: VALID_SIGNUP_PROFESSIONS.includes(profession) ? profession : 'farmer',
             state: '',
             district: '',
             taluk: '',
             phone: '',
             googleConnected: true,
-            avatarUrl: tokenInfo.picture || DEFAULT_AVATAR,
+            avatarUrl: verifiedPicture || DEFAULT_AVATAR,
             profileCompleted: false,
             updatedAt: nowIso,
           };
 
       db.users = {
         ...(db.users ?? {}),
-        [cleanEmail]: {
+        [verifiedEmail]: {
           profile: nextProfile,
           passwordHash: existing?.passwordHash,
           authProvider: existing?.authProvider ?? 'google',
@@ -1334,10 +1442,10 @@ function createApp() {
         },
       };
 
-      const token = createSessionForEmail(db, cleanEmail);
+      const token = createSessionForEmail(db, verifiedEmail);
       writeDb(db);
-      setSessionCookie(req, res, token);
-      res.json({ user: nextProfile });
+      setSessionCookie(req, res, token, rememberMe !== false);
+      res.json({ user: nextProfile, token });
     } catch {
       res.status(502).json({ error: 'Unable to verify Google Sign-In at the moment.' });
     }
@@ -1345,8 +1453,7 @@ function createApp() {
 
   app.post('/api/auth/logout', (req, res) => {
     const db = readDb();
-    const cookies = parseCookies(req.headers.cookie);
-    const token = cookies[SESSION_COOKIE_NAME];
+    const token = extractSessionToken(req);
     if (token && db.sessions?.[token]) {
       delete db.sessions[token];
       writeDb(db);
@@ -1390,10 +1497,8 @@ function createApp() {
       typeof district === 'string' && district.trim() ? district.trim() : current.district;
     const nextTaluk = typeof taluk === 'string' && taluk.trim() ? taluk.trim() : current.taluk;
 
-    if (
-      (typeof state === 'string' || typeof district === 'string' || typeof taluk === 'string') &&
-      !isValidIndianLocation(nextState, nextDistrict, nextTaluk)
-    ) {
+    const shouldValidateLocation = Boolean(nextState || nextDistrict || nextTaluk || profileCompleted === true);
+    if (shouldValidateLocation && !isValidIndianLocation(nextState, nextDistrict, nextTaluk)) {
       res.status(400).json({ error: 'Please select a valid State, District, and Taluk.' });
       return;
     }

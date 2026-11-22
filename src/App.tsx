@@ -1,3 +1,4 @@
+import { signOut } from 'firebase/auth';
 import { useCallback, useEffect, useState } from 'react';
 import { AppHeader } from './components/AppHeader';
 import { AvailableCropsPage } from './components/AvailableCropsPage';
@@ -9,6 +10,7 @@ import { HomeCalculatorPage } from './components/HomeCalculatorPage';
 import { MarketHubPage } from './components/MarketHubPage';
 import { SignInPage } from './components/SignInPage';
 import { WorkersHubPage } from './components/WorkersHubPage';
+import { auth } from './lib/firebase';
 import { kisanApi } from './services/api';
 import type {
   AgriExpert,
@@ -168,30 +170,36 @@ export default function App() {
     void loadAllData();
   }, [loadAllData]);
 
-  const handleAuthSuccess = (user: UserProfile, mode: 'signin' | 'signup' | 'google') => {
-    setProfile(user);
-    routeForProfession(user.profession, 'signin');
+  const handleAuthSuccess = useCallback(
+    (user: UserProfile, mode: 'signin' | 'signup' | 'google') => {
+      setProfile(user);
+      routeForProfession(user.profession, 'signin');
 
-    if (mode === 'google') {
-      showToast(`Signed in with Google (${user.email || user.name}).`);
-      return;
-    }
+      if (mode === 'google') {
+        showToast(`Signed in with Google (${user.email || user.name}).`);
+        return;
+      }
 
-    const roleToast: Record<Profession, string> = {
-      worker: 'Welcome! Showing available agricultural jobs.',
-      supplier: 'Welcome! Showing available farmer crops.',
-      farmer:
-        mode === 'signup'
-          ? 'Account created! Welcome to Kisan Sathi.'
-          : 'Welcome back to Kisan Sathi!',
-      expert: 'Welcome to Expert Sathi advisory desk.',
-    };
-    showToast(roleToast[user.profession]);
-  };
+      const roleToast: Record<Profession, string> = {
+        worker: 'Welcome! Showing available agricultural jobs.',
+        supplier: 'Welcome! Showing available farmer crops.',
+        farmer:
+          mode === 'signup'
+            ? 'Account created and saved! Welcome to Kisan Sathi.'
+            : 'Welcome back to Kisan Sathi!',
+        expert: 'Welcome to Expert Sathi advisory desk.',
+      };
+      showToast(roleToast[user.profession]);
+    },
+    [routeForProfession, showToast]
+  );
 
   const handleLogout = async () => {
     try {
       await kisanApi.logout();
+      if (auth) {
+        await signOut(auth).catch(() => undefined);
+      }
     } catch {
       // Clear local session state even if network request fails
     } finally {
